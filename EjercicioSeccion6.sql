@@ -67,56 +67,200 @@ conectado. Para saberlo, usamos la función USER de Oracle que
 devuelve el nombre del usuario con el que estamos conectados 
 (Recuerda que en Oracle no hace falta poner paréntesis si una función no 
 tiene argumentos) 
-usuario:=user*/
+usuario:=user
+•Luego hacermos un CASE para que nos pinte un mensaje del estilo: 
+o Si el usuario es SYS ponemos el mensaje "Eres 
+superadministrador" 
+o Si el usuario es SYSTEM ponemos el mensaje "Eres un 
+administrador normal" 
+o Si el usuario es HR ponemos el mensaje "Eres de Recursos 
+humanos" 
+o  Cualquier otro usuario ponemos "usuario no autorizado */
+
+/*SET SERVEROUTPUT ON
+DECLARE
+    usuario VARCHAR2(40);
+BEGIN
+    usuario := USER;
+    CASE usuario
+        WHEN 'SYS' THEN
+            dbms_output.put_line('ERES SUPERADMINISTRADOR');
+        WHEN 'SYSTEM' THEN
+            dbms_output.put_line('ERES UN ADMINISTRADOR NORMAL');
+        WHEN 'HR' THEN
+            dbms_output.put_line('ERES DE RECURSOS HUMANOS');
+        ELSE
+            dbms_output.put_line('USUARIO NO AUTORIZADO');
+    END CASE;
+END;*/
+
+//------------------------PRACTICAS BUCLES-------------------------------------
+/*1. Práctica 1 
+• Vamos a crear la tabla de multiplicar del 1 al 10, con los tres tipos de 
+bucles: LOOP, WHILE y FOR*/
+//------------------------------LOOP--------------------------------------------
+/*SET SERVEROUTPUT ON
+
+DECLARE
+    i         NUMBER := 0;
+    j         NUMBER;
+    resultado NUMBER;
+BEGIN
+    << parent >> LOOP
+        i := i + 1;
+        j := 0;
+        << child >> LOOP
+            EXIT parent WHEN i > 10;
+            j := j + 1;
+            resultado := i * j;
+            dbms_output.put_line(i
+                                 || 'X'
+                                 || j
+                                 || ' = '
+                                 || resultado);
+            EXIT child WHEN j = 10;
+        END LOOP child;
+
+    END LOOP parent;
+END;*/
+
+//---------------------------------WHILE---------------------------------------
+
+/*SET SERVEROUTPUT ON
+
+DECLARE
+    x NUMBER;
+    z NUMBER;
+    RESULTADO NUMBER;
+BEGIN
+    x := 1;
+    z := 1;
+    WHILE x < 11 LOOP
+    dbms_output.put_line('TABLA DEL ' ||X);
+        WHILE z < 11 LOOP
+        RESULTADO:=X*Z;
+            dbms_output.put_line(X||' X ' || Z ||' = ' ||RESULTADO);
+            z := z + 1;
+        END LOOP;
+        z := 0;
+        x := x + 1;
+    END LOOP;
+
+END;*/
+
+//-----------------------------BUCLE FOR --------------------------------------
 
 SET SERVEROUTPUT ON
 
 DECLARE
-USUARIO VARCHAR2(40);
-
+    x         NUMBER;
+    z         NUMBER;
+    resultado NUMBER;
 BEGIN
-USUARIO:='USUARIO'
+    FOR x IN 1..10 LOOP
+        dbms_output.put_line('TABLA DEL ' || x);
+        FOR z IN 1..10 LOOP
+            resultado := x * z;
+            dbms_output.put_line(x
+                                 || ' X '
+                                 || z
+                                 || ' = '
+                                 || resultado);
 
-CASE USUARIO
-WHEN
+        END LOOP;
 
-
-
+    END LOOP;
 END;
 
+/*2. Práctica 2-  
+• Crear una variable llamada TEXTO de tipo VARCHAR2(100). 
+• Poner alguna frase 
+• Mediante un bucle, escribir la frase al revés, Usamos el bucle WHILE */
 
+SET SERVEROUTPUT ON
 
+DECLARE
+    frase          VARCHAR2(100);
+    limite         NUMBER;
+    frase_al_reves VARCHAR2(100);
+BEGIN
+    frase := 'JUJUY';
+    limite := length(frase);
+    WHILE limite > 0 LOOP
+        frase_al_reves := frase_al_reves
+                          || substr(frase, limite, 1);
+        limite := limite - 1;
+    END LOOP;
 
+    dbms_output.put_line(frase_al_reves);
+END;
 
+/*3. Práctica 3 
+• Usando la práctica anterior, si en el texto aparece el carácter "x" debe 
+salir del bucle. Es igual en mayúsculas o minúsculas. 
+• Debemos usar la cláusula EXIT. 
+*/
+SET SERVEROUTPUT ON
 
+DECLARE
+    frase          VARCHAR2(100);
+    limite         NUMBER;
+    frase_al_reves VARCHAR2(100);
+BEGIN
+    frase := 'TEXTO';
+    limite := length(frase);
+    WHILE limite > 0 LOOP
+        frase_al_reves := frase_al_reves
+                          || substr(frase, limite, 1);
+        EXIT WHEN upper((substr(frase, limite, 1))) = 'X';
+        limite := limite - 1;
+    END LOOP;
 
+    dbms_output.put_line(frase_al_reves);
+END;
 
+/*4. Práctica 4 
+• Debemos crear una variable llamada NOMBRE 
+• Debemos pintar tantos asteriscos como letras tenga el nombre. 
+Usamos un bucle FOR 
+• Por ejemplo  Alberto → ******* 
+• O por ejemplo Pedro → ******/
 
+SET SERVEROUTPUT ON
 
+DECLARE
+    nombre     VARCHAR2(10);
+    limite     NUMBER;
+    asteriscos VARCHAR2(10);
+BEGIN
+    nombre := 'NACHO';
+    limite := length(nombre);
+    FOR nombre IN 1..limite LOOP
+        asteriscos := asteriscos || '*';
+    END LOOP;
 
+    dbms_output.put_line(nombre
+                         || '==>'
+                         || asteriscos);
+END;
 
+/*5. Práctica 5 
+• Creamos dos variables numéricas, "inicio y fin" 
+• Las inicializamos con algún valor: 
+o Debemos sacar los números que sean múltiplos de 4 de ese rango */
 
+SET SERVEROUTPUT ON
 
+DECLARE
+    inicio NUMBER;
+    final  NUMBER;
+BEGIN
+    inicio := 10;
+    final := 100;
+    FOR i IN inicio..final LOOP
+        IF MOD(i, 4) = 0 THEN
+            dbms_output.put_line(i);
+        END IF;
+    END LOOP;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+END;
