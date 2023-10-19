@@ -65,7 +65,7 @@ creamos una sección WHEN OTHERS y pintamos el error con SQLCODE
 y SQLERR */
 
 DECLARE
-    salario         NUMBER;
+    salario NUMBER;
 BEGIN
     SELECT
         salary
@@ -99,17 +99,20 @@ intente otra”. */
 
 SET SERVEROUTPUT ON
 
-DECLARE 
-DUPLICADO EXCEPTION;
-PRAGMA EXCEPTION_INIT(DUPLICADO,-00001);
-REGION REGIONS.REGION_ID%TYPE;
+DECLARE
+    duplicado EXCEPTION;
+    PRAGMA exception_init ( duplicado, -00001 );
+    region regions.region_id%TYPE;
 BEGIN
-REGION:=1;
-INSERT INTO REGIONS VALUES(REGION,'JUJUY');
-EXCEPTION
-WHEN DUPLICADO THEN
-DBMS_OUTPUT.PUT_LINE('CLAVE DUPLICADA, INTENTA OTRA');
+    region := 1;
+    INSERT INTO regions VALUES (
+        region,
+        'JUJUY'
+    );
 
+EXCEPTION
+    WHEN duplicado THEN
+        dbms_output.put_line('CLAVE DUPLICADA, INTENTA OTRA');
 END;
 /
 /*------------------------Práctica  con EXCEPCIONES DE USUARIO --------------*/
@@ -130,39 +133,55 @@ dispararse de forma manual con el RAISE. */
 SET SERVEROUTPUT ON
 
 DECLARE
-CONTROL_REGIONES EXCEPTION;
-NUM_REGION REGIONS.REGION_ID%TYPE;
-REGION REGIONS%ROWTYPE;
-
+    control_regiones EXCEPTION;
+    num_region regions.region_id%TYPE;
+    region     regions%rowtype;
 BEGIN
-REGION.REGION_NAME:='BRASIL';
-num_region:=201;
-IF NUM_REGION > 200 THEN
-RAISE CONTROL_REGIONES;
-ELSE INSERT INTO REGIONS VALUES(NUM_REGION,REGION.REGION_NAME); 
-COMMIT;
-END IF;
+    region.region_name := 'BRASIL';
+    num_region := 201;
+    IF num_region > 200 THEN
+        RAISE control_regiones;
+    ELSE
+        INSERT INTO regions VALUES (
+            num_region,
+            region.region_name
+        );
+
+        COMMIT;
+    END IF;
+
 EXCEPTION
-WHEN CONTROL_REGIONES THEN
-DBMS_OUTPUT.PUT_LINE('Codigo no permitido. Debe ser inferior a 200');
-WHEN OTHERS THEN
-DBMS_OUTPUT.PUT_LINE('ERROR INDEFINIDO');
+    WHEN control_regiones THEN
+        dbms_output.put_line('Codigo no permitido. Debe ser inferior a 200');
+    WHEN OTHERS THEN
+        dbms_output.put_line('ERROR INDEFINIDO');
 END;
 /
 
+---------------------Práctica  con RAISE_APPLICATION_ERROR ------------------
+/*1. Modificar la practica anterior para disparar un error con RAISE_APPLICATION 
+en vez de con PUT_LINE.  
+a. Esto permite que la aplicación pueda capturar y gestionar el error que 
+devuelve el PL/SQL */
 
+SET SERVEROUTPUT ON
 
+DECLARE
+    num_region regions.region_id%TYPE;
+    region     regions%rowtype;
+BEGIN
+    region.region_name := 'BRASIL';
+    num_region := 201;
+    IF num_region > 200 THEN
+        raise_application_error(-20002, 'Codigo no permitido. Debe ser inferior a 200');
+    ELSE
+        INSERT INTO regions VALUES (
+            num_region,
+            region.region_name
+        );
 
+        COMMIT;
+    END IF;
 
-
-
-
-
-
-
-
-
-
-
-
-
+END;
+/
