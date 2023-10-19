@@ -104,83 +104,88 @@ END;
 SET SERVEROUTPUT ON
 
 DECLARE
-REG REGIONS%ROWTYPE;
-REG_CONTROL REGIONS.REGION_ID%TYPE;
+    reg         regions%rowtype;
+    reg_control regions.region_id%TYPE;
 BEGIN
-REG.REGION_ID:=100;
-REG.REGION_NAME:='AFRICA';
+    reg.region_id := 100;
+    reg.region_name := 'AFRICA';
+    SELECT
+        region_id
+    INTO reg_control
+    FROM
+        regions
+    WHERE
+        region_id = reg.region_id;
 
-SELECT REGION_ID INTO REG_CONTROL FROM REGIONS
-WHERE REGION_ID=REG.REGION_ID;
-DBMS_OUTPUT.PUT_LINE('LA REGION YA EXISTE');
+    dbms_output.put_line('LA REGION YA EXISTE');
 EXCEPTION
-WHEN NO_DATA_FOUND THEN
-INSERT INTO REGIONS VALUES (REG.REGION_ID,REG.REGION_NAME);
-COMMIT;
+    WHEN no_data_found THEN
+        INSERT INTO regions VALUES (
+            reg.region_id,
+            reg.region_name
+        );
+
+        COMMIT;
 END;
 /
 -----------------------EXCEPCIONES PERSONALIZADAS -----------------------------
 SET SERVEROUTPUT ON
 
 DECLARE
-REG_MAX EXCEPTION;
-REGN NUMBER;
-REGT VARCHAR2(200);
+    reg_max EXCEPTION;
+    regn NUMBER;
+    regt VARCHAR2(200);
 BEGIN
-REGN:=101;
-REGT:='OCEANIA';
-IF REGN > 100 THEN
-RAISE REG_MAX;
-ELSE
-INSERT INTO REGIONS VALUES(REGN,REGT);
-COMMIT;
-END IF;
-EXCEPTION 
-WHEN REG_MAX THEN
-DBMS_OUTPUT.PUT_LINE('LA REGION NO PUEDE SER MAYOR DE 100');
-WHEN OTHERS THEN
-DBMS_OUTPUT.PUT_LINE('ERROR INDEFINIDO');
+    regn := 101;
+    regt := 'OCEANIA';
+    IF regn > 100 THEN
+        RAISE reg_max;
+    ELSE
+        INSERT INTO regions VALUES (
+            regn,
+            regt
+        );
+
+        COMMIT;
+    END IF;
+
+EXCEPTION
+    WHEN reg_max THEN
+        dbms_output.put_line('LA REGION NO PUEDE SER MAYOR DE 100');
+    WHEN OTHERS THEN
+        dbms_output.put_line('ERROR INDEFINIDO');
 END;
+/
+---------------------------AMBITO DE LAS EXCEPCIONES---------------------------
 
+SET SERVEROUTPUT ON
 
+DECLARE
+    regn NUMBER;
+    regt VARCHAR2(200);
+BEGIN
+    regn := 101;
+    regt := 'OCEANIA';
+    DECLARE
+        reg_max EXCEPTION;
+    BEGIN
+        IF regn > 100 THEN
+            RAISE reg_max;
+        ELSE
+            INSERT INTO regions VALUES (
+                regn,
+                regt
+            );
 
+            COMMIT;
+        END IF;
+    EXCEPTION
+        WHEN reg_max THEN
+            dbms_output.put_line('LA REGION NO PUEDE SER MAYOR DE 100');
+    END;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+EXCEPTION
+    WHEN OTHERS THEN
+        dbms_output.put_line('ERROR INDEFINIDO');
+END;
+/
