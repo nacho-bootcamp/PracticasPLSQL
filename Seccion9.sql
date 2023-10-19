@@ -14,21 +14,72 @@ VARRAYS
 EJEMPLO:
 */
 SET SERVEROUTPUT ON
-DECLARE 
-TYPE EMPLEADO IS RECORD
-(NOMBRE VARCHAR2(100),SALARIO NUMBER,
-FECHA EMPLOYEES.HIRE_DATE%TYPE,
-DATOS  EMPLOYEES%ROWTYPE
-);
-EMPLE1 EMPLEADO;
+
+DECLARE
+    TYPE empleado IS RECORD (
+            nombre  VARCHAR2(100),
+            salario NUMBER,
+            fecha   employees.hire_date%TYPE,
+            datos   employees%rowtype
+    );
+    emple1 empleado;
 BEGIN
-SELECT * INTO EMPLE1.DATOS
-FROM EMPLOYEES WHERE EMPLOYEE_ID=100;
-EMPLE1.NOMBRE:=EMPLE1.DATOS.FIRST_NAME||' '||EMPLE1.DATOS.LAST_NAME;
-EMPLE1.SALARIO:=EMPLE1.DATOS.SALARY * 0.80;
-EMPLE1.FECHA:=EMPLE1.DATOS.HIRE_DATE;
-DBMS_OUTPUT.PUT_LINE(EMPLE1.NOMBRE);
-DBMS_OUTPUT.PUT_LINE(EMPLE1.SALARIO);
-DBMS_OUTPUT.PUT_LINE(EMPLE1.FECHA);
-DBMS_OUTPUT.PUT_LINE(EMPLE1.DATOS.FIRST_NAME);
+    SELECT
+        *
+    INTO emple1.datos
+    FROM
+        employees
+    WHERE
+        employee_id = 100;
+
+    emple1.nombre := emple1.datos.first_name
+                     || ' '
+                     || emple1.datos.last_name;
+
+    emple1.salario := emple1.datos.salary * 0.80;
+    emple1.fecha := emple1.datos.hire_date;
+    dbms_output.put_line(emple1.nombre);
+    dbms_output.put_line(emple1.salario);
+    dbms_output.put_line(emple1.fecha);
+    dbms_output.put_line(emple1.datos.first_name);
+END;
+/
+----------------------INSERT Y UPDATE CON PL/SQL RECORDS------------------------
+
+CREATE TABLE regiones22
+    AS
+        SELECT
+            *
+        FROM
+            regions
+        WHERE
+            region_id = 0;
+
+DECLARE
+    reg1 regions%rowtype;
+BEGIN
+    SELECT
+        *
+    INTO reg1
+    FROM
+        regions
+    WHERE
+        region_id = 1;
+
+    INSERT INTO regiones22 VALUES reg1;
+
+END;
+/
+
+DECLARE
+    reg1 regions%rowtype;
+BEGIN
+    reg1.region_id := 1;
+    reg1.region_name := 'AUTRALIA';
+    UPDATE regiones22
+    SET
+        row = reg1
+    WHERE
+        region_id = 1;
+
 END;
