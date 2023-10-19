@@ -111,3 +111,41 @@ WHEN DUPLICADO THEN
 DBMS_OUTPUT.PUT_LINE('CLAVE DUPLICADA, INTENTA OTRA');
 
 END;
+/
+/*------------------------Práctica  con EXCEPCIONES DE USUARIO --------------*/
+/*1- Crear 
+una 
+Excepción 
+CONTROL_REGIONES. 
+personalizada 
+denominada 
+• Debe dispararse cuando al insertar o modificar una región 
+queramos poner una clave superior a 200. Por ejemplo usando una 
+variable con ese valor. 
+• En ese caso debe generar un texto indicando algo así como 
+“Codigo no permitido. Debe ser inferior a 200” 
+• Recordemos que las excepciones personalizadas deben 
+dispararse de forma manual con el RAISE. */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
