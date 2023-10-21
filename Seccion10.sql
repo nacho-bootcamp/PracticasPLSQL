@@ -1,4 +1,4 @@
- -----------------------------CURSORES-------------------------------------------
+-----------------------------CURSORES-------------------------------------------
 --EXPLICITO SE GENERAN DE FORMA MANUAL
 --IMPLICITO SE GENERAN AUTOMATICAMNTE POR PARTE DE PL
 
@@ -12,14 +12,19 @@ SQL%ROWCOUNT*/
 
 --EL DELETE ,UPDATE E INSERT NO DAN ERROR 
 BEGIN
-UPDATE TEST SET C2='PPPP' WHERE C1=200;
-DBMS_OUTPUT.PUT_LINE(SQL%ROWCOUNT);
-IF SQL%FOUND THEN
-DBMS_OUTPUT.PUT_LINE('ENCONTRADO');
-END IF;
-IF SQL%NOTFOUND THEN
-DBMS_OUTPUT.PUT_LINE('NO ENCONTRADO');
-END IF;
+    UPDATE test
+    SET
+        c2 = 'PPPP'
+    WHERE
+        c1 = 200;
+
+    dbms_output.put_line(SQL%rowcount);
+    IF SQL%found THEN
+        dbms_output.put_line('ENCONTRADO');
+    END IF;
+    IF SQL%notfound THEN
+        dbms_output.put_line('NO ENCONTRADO');
+    END IF;
 END;
 /
 
@@ -29,15 +34,19 @@ SET SERVEROUTPUT ON
 
 DECLARE
 --MIENTRAS NO LO HABRAMOS ESTE CURSOR ESTA CERRADO"VACIO"
-CURSOR C1 IS SELECT * FROM REGIONS;
-VALOR REGIONS%ROWTYPE;
+    CURSOR c1 IS
+    SELECT
+        *
+    FROM
+        regions;
 
+    valor regions%rowtype;
 BEGIN
-OPEN C1;
+    OPEN c1;
 --LEEMOS EL CURSOR CON FECTH
-FETCH C1 INTO VALOR;
-DBMS_OUTPUT.PUT_LINE(VALOR.REGION_NAME);
-CLOSE C1;
+    FETCH c1 INTO valor;
+    dbms_output.put_line(valor.region_name);
+    CLOSE c1;
 END;
 /
 
@@ -46,16 +55,22 @@ END;
 SET SERVEROUTPUT ON
 
 DECLARE
-CURSOR C1 IS SELECT * FROM REGIONS;
-V1 REGIONS%ROWTYPE;
+    CURSOR c1 IS
+    SELECT
+        *
+    FROM
+        regions;
+
+    v1 regions%rowtype;
 BEGIN
-OPEN C1;
-LOOP
-FETCH C1 INTO V1;
-EXIT WHEN C1%NOTFOUND;
-DBMS_OUTPUT.PUT_LINE(V1.REGION_NAME);
-END LOOP;
-CLOSE C1;
+    OPEN c1;
+    LOOP
+        FETCH c1 INTO v1;
+        EXIT WHEN c1%notfound;
+        dbms_output.put_line(v1.region_name);
+    END LOOP;
+
+    CLOSE c1;
 END;
 /
 
@@ -63,13 +78,49 @@ END;
 -- CUANDO UTILIZAMOS UN BUCLE FOR TODOS ESOS COMANDO DE OPEN Y CLOSE SON 
 --IMPLICITO
 SET SERVEROUTPUT ON
-DECLARE 
-CURSOR C1 IS SELECT * FROM REGIONS;
+
+DECLARE
+    CURSOR c1 IS
+    SELECT
+        *
+    FROM
+        regions;
+
 BEGIN
-FOR I IN C1 LOOP
+    FOR i IN c1 LOOP
+        dbms_output.put_line(i.region_name);
+    END LOOP;
+END;
+/
+-------------------------BUCLES FOR CON SUBQUERIES------------------------------
+
+BEGIN
+FOR I IN (SELECT * FROM REGIONS)LOOP
 DBMS_OUTPUT.PUT_LINE(I.REGION_NAME);
 END LOOP;
 END;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
