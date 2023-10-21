@@ -40,8 +40,7 @@ BEGIN
             salary,
             department_id
         INTO
-            empl
-        (i)
+            empl(i)
         FROM
             employees
         WHERE
