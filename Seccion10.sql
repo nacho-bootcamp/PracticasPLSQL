@@ -95,35 +95,43 @@ END;
 -------------------------BUCLES FOR CON SUBQUERIES------------------------------
 
 BEGIN
-FOR I IN (SELECT * FROM REGIONS)LOOP
-DBMS_OUTPUT.PUT_LINE(I.REGION_NAME);
-END LOOP;
+    FOR i IN (
+        SELECT
+            *
+        FROM
+            regions
+    ) LOOP
+        dbms_output.put_line(i.region_name);
+    END LOOP;
 END;
+/
 
+--------------------------CURSORES CON PARAMETRO------------------------------ 
+SET SERVEROUTPUT ON
 
+DECLARE
+    CURSOR c1 (
+        sal NUMBER
+    ) IS
+    SELECT
+        *
+    FROM
+        employees
+    WHERE
+        salary > sal;
 
+    empl employees%rowtype;
+BEGIN
+    OPEN c1(8000);
+    LOOP
+        FETCH c1 INTO empl;
+        EXIT WHEN c1%notfound;
+        dbms_output.put_line(empl.first_name
+                             || ' '
+                             || empl.salary);
+    END LOOP;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    dbms_output.put_line('HE ENCONTRADO '
+                         || c1%rowcount
+                         || ' EMPLEADOS');
+END;
