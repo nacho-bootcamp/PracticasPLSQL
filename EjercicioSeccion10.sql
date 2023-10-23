@@ -84,17 +84,29 @@ END;
 visualice el número de empleados de ese departamento */
 
 SET SERVEROUTPUT ON
+
 DECLARE
-CODIGO DEPARTMENTS.DEPARTMENT_ID%TYPE;
-CURSOR C1(NUMDEP DEPARTMENTS.DEPARTMENT_ID%TYPE ) IS SELECT COUNT(*) FROM EMPLOYEES
-WHERE department_id=NUMDEP;
-NUM_EMPLE NUMBER;
+    codigo    departments.department_id%TYPE;
+    CURSOR c1 (
+        numdep departments.department_id%TYPE
+    ) IS
+    SELECT
+        COUNT(*)
+    FROM
+        employees
+    WHERE
+        department_id = numdep;
+
+    num_emple NUMBER;
 BEGIN
-CODIGO:=10;
-OPEN C1(CODIGO);
-FETCH C1 INTO NUM_EMPLE;
-DBMS_OUTPUT.PUT_LINE('numero de empleados de ' ||codigo||' es 
-'||num_emple);
+    codigo := 10;
+    OPEN c1(codigo);
+    FETCH c1 INTO num_emple;
+    dbms_output.put_line('numero de empleados de '
+                         || codigo
+                         || ' es 
+'
+                         || num_emple);
 END;
 /
 
@@ -103,9 +115,57 @@ nombre de los empleados que sean ST_CLERCK. Es decir, no declaramos el
 cursor sino que lo indicamos directamente en el FOR. */
 
 
-BEGIN 
-FOR EMPLE IN(SELECT * FROM EMPLOYEES WHERE 
-JOB_ID='ST_CLERK') LOOP 
-DBMS_OUTPUT.PUT_LINE(EMPLE.FIRST_NAME); 
-END LOOP; 
-END; 
+BEGIN
+    FOR emple IN (
+        SELECT
+            *
+        FROM
+            employees
+        WHERE
+            job_id = 'ST_CLERK'
+    ) LOOP
+        dbms_output.put_line(emple.first_name);
+    END LOOP;
+END;
+/
+
+/*• 5-Creamos un bloque que tenga un cursor para empleados. Debemos crearlo con 
+FOR UPDATE. 
+o Por cada fila recuperada, si el salario es mayor de 8000 incrementamos el 
+salario un 2% 
+o Si es menor de 800 lo hacemos en un 3% 
+o Debemos modificarlo con la cláusula CURRENT OF 
+o Comprobar que los salarios se han modificado correctamente. */
+
+SET SERVEROUTPUT ON
+
+DECLARE
+    CURSOR c1 IS
+    SELECT
+        *
+    FROM
+        employees
+    FOR UPDATE;
+
+BEGIN
+    FOR empleado IN c1 LOOP
+        IF empleado.salary > 8000 THEN
+            UPDATE employees
+            SET
+                salary = salary * 1.02
+            WHERE
+                CURRENT OF c1;
+
+        ELSE
+            UPDATE employees
+            SET
+                salary = salary * 1.03
+            WHERE
+                CURRENT OF c1;
+
+        END IF;
+    END LOOP;
+
+    COMMIT;
+END;
+/
