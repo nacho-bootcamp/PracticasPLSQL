@@ -96,3 +96,16 @@ FETCH C1 INTO NUM_EMPLE;
 DBMS_OUTPUT.PUT_LINE('numero de empleados de ' ||codigo||' es 
 '||num_emple);
 END;
+/
+
+/*• 4-Crear un bucle FOR donde declaramos una subconsulta que nos devuelva el 
+nombre de los empleados que sean ST_CLERCK. Es decir, no declaramos el 
+cursor sino que lo indicamos directamente en el FOR. */
+
+
+BEGIN 
+FOR EMPLE IN(SELECT * FROM EMPLOYEES WHERE 
+JOB_ID='ST_CLERK') LOOP 
+DBMS_OUTPUT.PUT_LINE(EMPLE.FIRST_NAME); 
+END LOOP; 
+END; 
