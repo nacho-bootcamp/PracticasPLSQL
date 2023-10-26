@@ -53,3 +53,23 @@ BEGIN
     END LOOP;
 
 END;
+/
+/*3- Crear un bloque por el cual se de formato a un número de cuenta
+suministrado por completo, por ejmplo: 11111111111111111111
+• Formateado a: 1111-1111-11-1111111111
+• Debemos usar un parámetro de tipo IN-OUT*/
+CREATE OR REPLACE PROCEDURE formateo_cuenta (numero IN OUT
+VARCHAR2)
+IS
+guardar1 VARCHAR2(20);
+guardar2 VARCHAR2(20);
+guardar3 VARCHAR2(20);
+guardar4 VARCHAR2(20);
+BEGIN
+guardar1:=substr(numero,1,4);
+guardar2:=substr(numero,5,4);
+guardar3:=substr(numero,9,2);
+guardar4:=substr(numero,10);
+numero:=guardar1 || '-' || guardar2 || '-' || guardar3 || '-' || guardar4;
+END;
+/
