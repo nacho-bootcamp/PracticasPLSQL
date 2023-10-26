@@ -40,3 +40,49 @@ B:=10;
 CALC_TAX_IN_OUT(A,B);
 DBMS_OUTPUT.PUT_LINE('B= '||B);
 END;
+/
+-----------------------------------FUNCION------------------------------------
+SET SERVEROUTPUT ON
+DECLARE
+A NUMBER;
+B NUMBER;
+R NUMBER;
+BEGIN
+A:=120;
+B:=10;
+R:=CALC_TAX_F(A,B);
+DBMS_OUTPUT.PUT_LINE('R= '||R);
+END;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
