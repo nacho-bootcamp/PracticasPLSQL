@@ -137,3 +137,60 @@ EXCEPTION
 el departamento ' || dep);
         end;
 END;
+/
+/*2. Modificar el programa anterior para incluir un parámetro de tipo OUT por 
+el que vaya el número de empleados afectados por la query. Debe ser 
+visualizada en el programa que llama a la función. De esta forma vemos 
+que se puede usar este tipo de parámetros también en una función */
+
+
+CREATE OR REPLACE FUNCTION salarios_dept1(dep_id NUMBER, 
+n_empleados OUT NUMBER) RETURN NUMBER 
+IS 
+sal NUMBER; 
+BEGIN --COMPROBAR QUE EL DEPARTAMENTO EXISTE. SI NO 
+EXISTE SE DISPARA LA EXCEPCIÓN 
+SELECT DEPARTMENT_ID INTO DEPT FROM DEPARTMENTS 
+WHERE DEPARTMENT_ID=DEP_ID; --SI EL DEPARTAMENTO EXISTE CALCULAR TOTALES 
+SELECT sum(salary),count(salary) INTO SAL,n_empleados from 
+employees where department_id=dep_id group by department_id; 
+RETURN sal; 
+END;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
