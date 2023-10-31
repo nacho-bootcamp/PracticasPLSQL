@@ -25,7 +25,8 @@ END;
 /*puedo crear variables globales en toda la app que perciba durante la sesion*/
 
 ------------------------CREAR EL CUERPO DE UN PAQUETE---------------------------
-CREATE OR REPLACE PACKAGE pack1 IS
+CREATE OR REPLACE PACKAGE pack1 
+IS
     PROCEDURE convert (
         name            VARCHAR2,
         conversion_type CHAR
@@ -36,24 +37,23 @@ END;
 
 CREATE OR REPLACE PACKAGE BODY pack1 IS
 
-    FUNCTION up (
-        name VARCHAR2
-    ) RETURN VARCHAR2 IS
+    FUNCTION up (name VARCHAR2)
+    RETURN VARCHAR2 
+    IS
     BEGIN
         RETURN upper(name);
     END up;
 
-    FUNCTION do (
-        name VARCHAR2
-    ) RETURN VARCHAR2 IS
+
+    FUNCTION do (name VARCHAR2) 
+    RETURN VARCHAR2 
+    IS
     BEGIN
         RETURN lower(name);
     END do;
 
-    PROCEDURE convert (
-        name            VARCHAR2,
-        conversion_type CHAR
-    ) IS
+    PROCEDURE convert (name VARCHAR2,conversion_type CHAR)
+    IS
     BEGIN
         IF conversion_type = 'U' THEN
             dbms_output.put_line(up(name));

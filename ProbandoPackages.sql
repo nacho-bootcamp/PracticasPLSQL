@@ -15,3 +15,11 @@ BEGIN
     dbms_output.put_line(pack1.v1);
 END;
 /
+
+------------------------CREAR EL CUERPO DE UN PAQUETE---------------------------
+SET SERVEROUTPUT ON
+
+BEGIN
+    pack1.convert('NACHO', 'L');
+      pack1.convert('nacho', 'U');
+END;
