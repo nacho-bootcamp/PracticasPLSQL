@@ -23,3 +23,16 @@ BEGIN
     pack1.convert('NACHO', 'L');
       pack1.convert('nacho', 'U');
 END;
+/
+-----------------USAR FUNCIONES  DE UN PAQUETE EN COMANDOS---------------------
+SET SERVEROUTPUT ON
+DECLARE 
+V1 VARCHAR2(100);
+BEGIN
+
+V1:=pack1.convert('NACHO', 'L');
+     DBMS_OUTPUT.PUT_LINE(V1);
+END;
+/
+
+SELECT FIRST_NAME,pack1.convert(FIRST_NAME,'U') AS "CONVERTIDOR" FROM EMPLOYEES;
