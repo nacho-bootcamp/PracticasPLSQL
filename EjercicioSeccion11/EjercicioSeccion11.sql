@@ -156,6 +156,42 @@ SELECT sum(salary),count(salary) INTO SAL,n_empleados from
 employees where department_id=dep_id group by department_id; 
 RETURN sal; 
 END;
+/
+/*3. Crear una función llamada CREAR_REGION,
+• A la función se le debe pasar como parámetro un nombre de 
+región y debe devolver un número, que es el código de región 
+que calculamos dentro de la función
+• Se debe crear una nueva fila con el nombre de esa REGION
+• El código de la región se debe calcular de forma automática. 
+Para ello se debe averiguar cual es el código de región más 
+alto que tenemos en la tabla en ese momento, le sumamos 1 y 
+el resultado lo ponemos como el código para la nueva región 
+que estamos creando.
+• Si tenemos algún problema debemos generar un error
+• La función debe devolver el número que ha asignado a la región*/
+
+create or replace FUNCTION CREAR_REGION (nombre varchar2) 
+RETURN NUMBER IS
+regiones NUMBER;
+NOM_REGION VARCHAR2(100);
+BEGIN
+--AVERIGUAR SI EXISTE LA REGIÓN. SI YA EXISTE DAMOS 
+ERROR. SI NO EXISTE PASAMOS A EXCEPTION Y SEGUIMOS 
+CON EL PROGRAMA
+SELECT REGION_NAME INTO NOM_REGION FROM REGIONS 
+WHERE REGION_NAME=UPPER(NOMBRE);
+raise_application_error(-20321,'Esta región ya existe!');
+EXCEPTION
+-- SI LA REGION NO EXISTE LA INSERTAMOS. ES UN EJEMPLO 
+DE COMO PODEMOS USAR LA EXCEPCION PARA HACER ALGO 
+CORRECTO
+WHEN NO_DATA_FOUND THEN
+SELECT MAX(REGION_ID)+1 INTO REGIONES from REGIONS;
+INSERT INTO REGIONS (region_id,region_name) VALUES 
+(regiones,upper(nombre));
+RETURN REGIONES;
+END;
+/
 
 
 

@@ -65,3 +65,25 @@ BEGIN
 es : ' || num_emple);
 END;
 /
+
+/*3. Crear una función llamada CREAR_REGION,
+• A la función se le debe pasar como parámetro un nombre de 
+región y debe devolver un número, que es el código de región 
+que calculamos dentro de la función
+• Se debe crear una nueva fila con el nombre de esa REGION
+• El código de la región se debe calcular de forma automática. 
+Para ello se debe averiguar cual es el código de región más 
+alto que tenemos en la tabla en ese momento, le sumamos 1 y 
+el resultado lo ponemos como el código para la nueva región 
+que estamos creando.
+• Si tenemos algún problema debemos generar un error
+• La función debe devolver el número que ha asignado a la región*/
+
+DECLARE
+N_REGION NUMBER;
+BEGIN
+N_REGION:=crear_region('NORMANDIA');
+DBMS_OUTPUT.PUT_LINE('EL NUMERO ASIGNADO 
+ES:'||N_REGION);
+END;
+/
