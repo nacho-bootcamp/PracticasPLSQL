@@ -10,9 +10,16 @@ NO ES OBLIGATORIO
 */
 
 -------------------CREAR LAS ESPECIFICACIONES DE UN PAQUETE---------------------
-CREATE OR REPLACE PACKAGE PACK1
-IS
-V1 NUMBER;
-V2 VARCHAR2(100);
+CREATE OR REPLACE PACKAGE pack1 IS
+    v1 NUMBER;
+    v2 VARCHAR2(100);
 END;
 /
+
+--------------------AMBITO DE LAS VARIABLES EN UN PACKETE-----------------------
+CREATE OR REPLACE PACKAGE pack1 IS
+    v1 NUMBER := 10;
+    v2 VARCHAR2(100);
+END;
+/
+/**puedo crear variables globales en toda la app que perciba durante la sesion/

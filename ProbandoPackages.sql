@@ -1,7 +1,17 @@
 -------------------CREAR LAS ESPECIFICACIONES DE UN PAQUETE---------------------
 SET SERVEROUTPUT ON
-BEGIN
-PACK1.V1:=100;
-DBMS_OUTPUT.PUT_LINE(PACK1.V1);
 
+BEGIN
+    pack1.v1 := 100;
+    dbms_output.put_line(pack1.v1);
 END;
+/
+
+--------------------AMBITO DE LAS VARIABLES EN UN PACKETE-----------------------
+SET SERVEROUTPUT ON
+
+BEGIN
+    pack1.v1 := pack1.v1 + 10;
+    dbms_output.put_line(pack1.v1);
+END;
+/
