@@ -194,6 +194,51 @@ END PRODUCTO;
 END;
 /
 
+----------------------------Comprobar los objetos que tenemos-------------------
+
+desc PRODUCTO;
+
+DESC EMPLEADO;
+
+SELECT * FROM USER_TYPES;
+SELECT * FROM USER_SOURCE WHERE NAME='PRODUCTO';
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
