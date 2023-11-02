@@ -44,6 +44,27 @@ SELECT USER FROM DUAL;
 select * from auditoria;
 
 
+/*4. Realizar otro trigger BEFORE UPDATE de la columna SALARY de tipo 
+EACH ROW.
+• Si la modificación supone rebajar el salario el TRIGGER debe 
+disparar un RAISE_APPLICATION_FAILURE “no se puede bajar 
+un salario”.
+• Si el salario es mayor debemos dejar el salario antiguo y el salario 
+nuevo en la tabla AUDITORIA.*/
+
+CREATE OR REPLACE TRIGGER SALARY BEFORE
+UPDATE ON EMPLOYEES
+FOR EACH ROW
+BEGIN
+ IF :NEW.SALARY< :OLD.SALARY THEN 
+ RAISE_APPLICATION_ERROR(-20000,'NO SE PUEDE BAJAR EL 
+SALARIO');
+ END IF;
+ IF :NEW.SALARY> :OLD.SALARY THEN
+ INSERT INTO AUDITORIA VALUES 
+(USER,SYSDATE,:OLD.SALARY,:NEW.SALARY);
+ END IF;
+END;
 
 
 
