@@ -26,6 +26,24 @@ FECHA DATE,
 SALARIO_ANTIGUO NUMBER,
 SALARIO_NUEVO NUMBER);
 
+/*3. Crear un TRIGGER BEFORE INSERT de tipo STATEMENT, de forma que 
+cada vez que se haga un INSERT en la tabla REGIONS guarde una fila 
+en la tabla AUDITORIA con el usuario y la fecha en la que se ha hecho el 
+INSERT*/
+
+
+CREATE TRIGGER AUDITORIA BEFORE INSERT ON REGIONS
+BEGIN
+INSERT INTO AUDITORIA (usuario, fecha)
+VALUES (user,sysdate);
+END;
+
+----------PROBAR
+INSERT INTO REGIONS VALUES (20,'Prueba');
+SELECT USER FROM DUAL;
+select * from auditoria;
+
+
 
 
 
