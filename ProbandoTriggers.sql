@@ -19,3 +19,9 @@ INSERT INTO REGIONS VALUES(1009,'area51');
 
 --------------------------------CLAUSULA WHEN-----------------------------------
 INSERT INTO REGIONS VALUES(1085,'REGION85');
+
+----------------------TRIGGERS DE TIPO COMPOUND---------------------------------
+
+INSERT INTO REGIONS VALUES(9000,'REGION900');
+
+DELETE REGIONS WHERE region_id=9000;
