@@ -18,7 +18,16 @@ CREATE OR REPLACE TRIGGER JOB_ID BEFORE
 DELETE from employees where job_id LIKE ('%CLERK');
 ALTER TRIGGER JOB_ID DISABLE;
  
- 
+ /*2. Crear una tabla denominada AUDITORIA con las siguientes columnas:*/ 
+
+CREATE TABLE AUDITORIA (
+USUARIO VARCHAR(50),
+FECHA DATE,
+SALARIO_ANTIGUO NUMBER,
+SALARIO_NUEVO NUMBER);
+
+
+
 
 
 
