@@ -66,8 +66,30 @@ SALARIO');
  END IF;
 END;
 
+/*5. Crear un TRIGGER BEFORE INSERT en la tabla DEPARTMENTS que al 
+insertar un departamento compruebe que el código no esté repetido y 
+luego que si el LOCATION_ID es NULL le ponga 1700 y si el 
+MANAGER_ID es NULL le ponga 200*/
 
-
+CREATE OR REPLACE TRIGGER TRIGGER1 
+BEFORE INSERT ON DEPARTMENTS 
+FOR EACH ROW
+declare
+deptno number;
+BEGIN
+ select department_id into deptno from departments where 
+department_id=:new.department_id;
+ RAISE_APPLICATION_ERROR(-20000,'Departamento ya existe');
+ 
+ EXCEPTION
+ WHEN NO_DATA_FOUND THEN
+ if :new.location_id is null then
+ :new.location_id:=1700;
+ end if;
+ if :new.manager_id is null then
+ :new.manager_id:=200;
+ end if;
+END;
 
 
 
